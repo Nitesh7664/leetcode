@@ -1,0 +1,31 @@
+Binary Tree Level Order Traversal II
+
+java Solution
+
+class Solution {
+    public List<List<Integer>> levelOrderBottom(TreeNode root) {
+        List<List<Integer>> result = new ArrayList<>();
+        Queue<TreeNode> queue = new LinkedList<>();
+        if(root == null)
+            return result;
+        queue.add(root);
+        while(!queue.isEmpty()){
+            Queue<TreeNode> dup = new LinkedList<>();
+            List<Integer> list = new ArrayList<>();
+            while(!queue.isEmpty()){
+                TreeNode curr = queue.poll();
+                dup.add(curr);
+                list.add(curr.val);
+            }
+            result.add(0, list);
+            while(!dup.isEmpty()){
+                TreeNode curr = dup.poll();
+                if(curr.left != null)
+                    queue.add(curr.left);
+                if(curr.right != null)
+                    queue.add(curr.right);
+            }
+        }
+        return result;
+    }
+}
