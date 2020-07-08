@@ -1,0 +1,29 @@
+Ugly Number II
+
+java solution
+
+class Solution {
+    public int nthUglyNumber(int n) {
+        int twoIndex = 0;
+        int threeIndex = 0;
+        int fiveIndex = 0;
+        
+        List<Integer> dp = new ArrayList();
+        dp.add(1);
+        int temp = n;
+        while(temp-- > 0){
+            int by2 = dp.get(twoIndex) * 2;
+            int by3 = dp.get(threeIndex) * 3;
+            int by5 = dp.get(fiveIndex) * 5;
+            
+            int min = Math.min(by2, Math.min(by3, by5));
+            dp.add(min);
+            
+            if(min == by2) twoIndex++;
+            if(min == by3) threeIndex++;
+            if(min == by5) fiveIndex++;
+        }
+        
+        return dp.get(n - 1);
+    }
+}
