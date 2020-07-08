@@ -1,0 +1,19 @@
+Hamming Distance
+
+java solution
+
+class Solution {
+    public int hammingDistance(int x, int y) {
+        int result = x ^ y;
+        int count = 0;
+        int remainder = 0;
+        while(result > 0){
+            remainder = result % 2;
+            if(remainder == 1){
+                count++;
+            }
+            result /= 2;
+        }
+        return count;
+    }
+}
