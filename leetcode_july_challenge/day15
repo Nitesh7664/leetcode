@@ -1,0 +1,14 @@
+Reverse Words in a String
+
+#java solution
+
+class Solution {
+    public String reverseWords(String s) {
+        String[] str = s.split("\\s+");
+        String res = "";
+        for(String i: str){
+            res = i + " " + res;
+        }
+        return res.trim();
+    }
+}
