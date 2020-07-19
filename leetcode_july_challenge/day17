@@ -1,0 +1,42 @@
+Course Schedule II
+
+# java solution
+
+class Solution {
+    public int[] findOrder(int numCourses, int[][] p) {
+        List<Integer>[] graph = new ArrayList[numCourses];
+        int[] inDegree = new int[numCourses];
+        
+        for(int i = 0; i < numCourses; i++){
+            graph[i] = new ArrayList();
+        }
+        
+        for(int i = 0; i < p.length; i++){
+            graph[p[i][1]].add(p[i][0]);
+            inDegree[p[i][0]]++;
+        }
+        
+        Queue<Integer> queue = new LinkedList();
+        int[] order = new int[numCourses];
+        int index = 0;
+        
+        for(int i = 0; i < numCourses; i++){
+            if(inDegree[i] == 0){
+                order[index++] = i;
+                queue.add(i);
+            }      
+        }
+        
+        while(!queue.isEmpty()){
+            int current = queue.poll();
+            for(int c: graph[current]){
+                inDegree[c]--;
+                if(inDegree[c] == 0){
+                    queue.add(c);
+                    order[index++] = c;
+                }
+            }
+        }
+        return index == numCourses? order: new int[0];
+    }
+}
