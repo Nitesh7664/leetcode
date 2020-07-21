@@ -1,25 +1,23 @@
-Remove Linked List Elements
+Add Binary
 
 # java solution
 
-/**
- * Definition for singly-linked list.
- * public class ListNode {
- *     int val;
- *     ListNode next;
- *     ListNode() {}
- *     ListNode(int val) { this.val = val; }
- *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
- * }
- */
 class Solution {
-    public ListNode removeElements(ListNode head, int val) {
-        while(head != null && head.val == val) head = head.next;
-        ListNode curr = head;
-        while(curr != null && curr.next != null){
-            if(curr.next.val == val) curr.next = curr.next.next;
-            else curr = curr.next;
+    public String addBinary(String a, String b) {
+        StringBuilder res = new StringBuilder();
+        int i = a.length() - 1;
+        int j = b.length() - 1;
+        int carry = 0;
+        while(i >= 0 || j >= 0){
+            int sum = carry;
+            if(i >= 0) sum += a.charAt(i--) - '0';
+            if(j >= 0) sum += b.charAt(j--) - '0';
+            res.append(sum % 2);
+            carry = sum / 2;
         }
-        return head;
+        if(carry == 1) res.append(1);
+        return res.reverse().toString();
+        
+            
     }
 }
