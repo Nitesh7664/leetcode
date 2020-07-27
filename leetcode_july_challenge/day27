@@ -1,0 +1,33 @@
+Construct Binary Tree from Inorder and Postorder Traversal
+
+#java solution
+
+class Solution {
+    int pIndex;
+    public TreeNode buildTree(int[] inorder, int[] postorder) {
+        pIndex = postorder.length - 1;
+        return buildTree(inorder, postorder, 0, inorder.length - 1);
+    }
+    public TreeNode buildTree(int[] inOrder, int[] postOrder, int inStart, int inEnd){
+        if(inStart > inEnd) return null;
+        
+        TreeNode tNode = new TreeNode(postOrder[pIndex]);
+        pIndex--;
+        
+        if(inStart == inEnd) return tNode;
+        
+        int inIndex = searchIndex(inOrder, tNode.val);
+        
+        tNode.right = buildTree(inOrder, postOrder, inIndex + 1, inEnd);
+        tNode.left = buildTree(inOrder, postOrder, inStart, inIndex - 1);
+        
+        return tNode;
+    }
+    public int searchIndex(int[] inOrder, int element){
+        int i = 0;
+        for(i = 0; i < inOrder.length; i++){
+            if(inOrder[i] == element) break;
+        }
+        return i;
+    }
+}
