@@ -1,0 +1,38 @@
+All Paths From Source to Target
+
+#java solution
+
+class Solution {
+    Map<Integer, List<Integer>> adjacencyList;
+    List<List<Integer>> result;
+    public List<List<Integer>> allPathsSourceTarget(int[][] graph) {
+        adjacencyList = new HashMap();
+        result = new ArrayList();
+        
+        for(int i = 0; i < graph.length - 1; i++){
+            for(int j = 0; j < graph[i].length; j++){
+                List<Integer> temp = adjacencyList.getOrDefault(i, new ArrayList());
+                temp.add(graph[i][j]);
+                adjacencyList.put(i, temp);
+            }
+        }//    
+        
+        searchPath(new ArrayList(), 0, graph.length - 1);
+        return result;
+    }//End
+    
+    public void searchPath(List<Integer> list, int start, int end){
+        List<Integer> temp = new ArrayList(list);
+        if(start == end){
+            temp.add(start);
+            result.add(temp);
+            return;
+        }
+        
+        temp.add(start);
+        
+        for(int i = 0; i < adjacencyList.get(start).size(); i++){
+            searchPath(temp, adjacencyList.get(start).get(i), end);
+        }
+    }
+}
