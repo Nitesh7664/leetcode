@@ -1,0 +1,46 @@
+Word Break II
+
+#java solution
+
+class Solution {
+    List<String> result;
+    public List<String> wordBreak(String s, List<String> wordDict) {
+        
+        int[] map1 = new int[26];
+        int[] map2 = new int[26];
+        for(int i = 0; i < wordDict.size(); i++){
+            String temp = wordDict.get(i);
+            for(int j = 0; j < temp.length(); j++){
+                map1[temp.charAt(j) - 'a']++;
+            }
+        }
+        for(int i = 0; i < s.length(); i++){
+            map2[s.charAt(i) - 'a']++;
+        }
+        
+        for(int i = 0; i < 26; i++){
+            if(map1[i] == 0 && map2[i] != 0) return new ArrayList();
+        }
+        
+        result = new ArrayList();
+        searchForWordBreak("", s, wordDict);
+        
+        return result;
+    }
+    public void searchForWordBreak(String found, String str, List<String> wordDict){
+        
+        if(str.length() == 0) {
+            result.add(found.trim());
+            return;
+        }
+        
+        char start = str.charAt(0);
+                
+        for(int i = 0; i < wordDict.size(); i++){
+            String temp = wordDict.get(i);
+            if(temp.charAt(0) != start) continue;
+            if(temp.length() <= str.length() && temp.equals(str.substring(0, temp.length())))
+                searchForWordBreak(found + str.substring(0, temp.length()) + " ", str.substring(temp.length()), wordDict);
+        }
+    }
+}
