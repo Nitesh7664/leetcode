@@ -1,0 +1,46 @@
+Vertical Order Traversal of a Binary Tree
+
+#java solution
+
+class Solution {
+    class Point{
+        int x;
+        int y;
+        TreeNode node;
+        public Point(int x, int y, TreeNode node){
+            this.x = x;
+            this.y = y;
+            this.node = node;
+        }
+    }
+    
+    public List<List<Integer>> verticalTraversal(TreeNode root) {
+        List<Point> list = new ArrayList();
+        getAllNodes(root, list, 0, 0);
+        
+        Collections.sort(list, (p1, p2) -> (p2.x == p1.x)? (p2.y == p1.y)? p1.node.val - p2.node.val: p2.y - p1.y: p1.x - p2.x);
+        
+        Map<Integer, List<Integer>> hash = new TreeMap();
+        for(Point p: list){
+            List<Integer> temp = hash.getOrDefault(p.x, new ArrayList());
+            temp.add(p.node.val);
+            hash.put(p.x, temp);
+        }
+        
+        List<List<Integer>> result = new ArrayList();
+        
+        for(List<Integer> valueList: hash.values()){
+            result.add(valueList);
+        }
+        return result;
+    }
+    public void getAllNodes(TreeNode root, List<Point> list, int x, int y){
+        if(root == null) return;
+        
+        Point point = new Point(x, y, root);
+        list.add(point);
+        
+        getAllNodes(root.left, list, x - 1, y - 1);
+        getAllNodes(root.right, list, x + 1, y - 1);
+    }
+}
