@@ -1,0 +1,43 @@
+Rotting Oranges
+
+#java solution
+
+class Solution {
+    Queue<int[]> queue;
+    public int orangesRotting(int[][] grid) {
+        int totalMinutes = 0;
+        int freshCounts = 0;
+        queue = new LinkedList();
+        for(int i = 0; i < grid.length; i++){
+            for(int j = 0; j < grid[0].length; j++){
+                if(grid[i][j] == 2){
+                    queue.add(new int[]{i, j});
+                }
+                if(grid[i][j] == 1){
+                    freshCounts++;
+                }
+            }
+        }
+        int[][] direction = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
+        while(!queue.isEmpty() && freshCounts > 0){
+            totalMinutes++;
+            Queue<int[]> tempQueue = new LinkedList();
+            while(!queue.isEmpty()){
+                int[] pos = queue.poll();
+                
+                for(int[] d: direction){
+                    int x = pos[0] + d[0];
+                    int y = pos[1] + d[1];
+                    if(x < 0 || x >= grid.length || y < 0 || y >= grid[0].length || grid[x][y] == 0 || grid[x][y] == 2) continue;
+                    grid[x][y] = 2;
+                    freshCounts--;
+                    tempQueue.add(new int[]{x, y});
+                }
+                
+            }
+            while(!tempQueue.isEmpty()) queue.add(tempQueue.poll());
+        }
+        
+        return freshCounts != 0? -1: totalMinutes;
+    }
+}
