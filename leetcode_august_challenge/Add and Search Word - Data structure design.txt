@@ -1,0 +1,61 @@
+Add and Search Word - Data structure design
+
+#java solution
+
+class WordDictionary {
+    Node root;
+    
+    class Node{
+        Node[] node;
+        boolean isEnd;
+        
+        public Node(){
+            node = new Node[26];
+            isEnd = false;
+        }
+    }
+
+    /** Initialize your data structure here. */
+    public WordDictionary() {
+        root = new Node();
+    }
+    
+    /** Adds a word into the data structure. */
+    public void addWord(String word) {
+        Node curr = root;
+        for(int i = 0; i < word.length(); i++){
+            if(curr.node[word.charAt(i) - 'a'] == null)
+                curr.node[word.charAt(i) - 'a'] = new Node();
+            curr = curr.node[word.charAt(i) - 'a'];
+        }
+        curr.isEnd = true;
+    }
+    
+    /** Returns if the word is in the data structure. A word could contain the dot character '.' to represent any one letter. */
+    public boolean search(String word) {
+        return search(word, root);
+    }
+    
+    public boolean search(String word, Node root){
+        if(word.length() == 1 && word.charAt(0) == '.')
+            return checkForDot(root);
+        if(word.length() == 1 && root.node[word.charAt(0) - 'a'] != null)
+            return root.node[word.charAt(0) - 'a'].isEnd;
+        char ch = word.charAt(0);
+        if(ch != '.' && root.node[ch - 'a'] == null) return false;
+        if(ch != '.' && root.node[ch - 'a'] != null) return search(word.substring(1), root.node[ch - 'a']);
+        for(int i = 0; i < 26; i++){
+            if(ch == '.' && root.node[i] != null && search(word.substring(1), root.node[i]))
+                return true;
+        }
+        return false;
+    }
+    
+    public boolean checkForDot(Node root){
+        for(int i = 0; i < root.node.length; i++){
+            if(root.node[i] != null && root.node[i].isEnd)
+                return true;
+        }
+        return false;
+    }
+}
