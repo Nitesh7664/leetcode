@@ -1,0 +1,30 @@
+Path Sum III
+
+#java solution
+
+class Solution {
+    int totalPath;
+    List<Integer> list;
+    public int pathSum(TreeNode root, int sum) {
+        list = new ArrayList();
+        calculateTotalPath(root, sum);
+        return totalPath;
+    }
+    
+    public void calculateTotalPath(TreeNode root, int sum){
+        if(root == null) return;
+        
+        list.add(root.val);
+        
+        calculateTotalPath(root.left, sum);
+        calculateTotalPath(root.right, sum);
+        
+        int temp = 0;
+        for(int i = list.size() - 1; i >= 0; i--){
+            temp += list.get(i);
+            if(temp == sum) totalPath++;
+        }
+        
+        list.remove(list.size() - 1);
+    }
+}
