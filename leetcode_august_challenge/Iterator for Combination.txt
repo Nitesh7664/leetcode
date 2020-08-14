@@ -1,0 +1,28 @@
+Iterator for Combination
+
+#java solution
+
+class CombinationIterator {
+    Queue<String> queue;
+    public CombinationIterator(String characters, int combinationLength) {
+        queue = new LinkedList();
+        generateString(characters, 0, "", combinationLength);
+    }
+    
+    public String next() {
+        return queue.poll();
+    }
+    
+    public boolean hasNext() {
+        return !queue.isEmpty();
+    }
+    private void generateString(String s, int start, String soFar, int k){
+        if(k == 0){
+            queue.add(soFar);
+            return;
+        }
+        for(int i = start; i < s.length(); i++){
+            generateString(s, i + 1, soFar + s.charAt(i), k - 1);
+        }
+    }
+}
