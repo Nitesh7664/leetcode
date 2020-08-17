@@ -1,0 +1,24 @@
+Distribute Candies to People
+
+#java solution
+
+class Solution {
+    public int[] distributeCandies(int candies, int num_people) {
+        int[] people = new int[num_people];
+        if(candies <= 0)
+            return people;
+                
+        int n = 1;
+        while(candies != 0){
+            if(n >= candies){
+                people[(n - 1) % num_people] += Math.min(n, candies);
+                candies = 0;
+                break;
+            }
+            people[(n - 1) % num_people] += n;
+            candies -= n;
+            n += 1;
+        }
+        return people;
+    }
+}
