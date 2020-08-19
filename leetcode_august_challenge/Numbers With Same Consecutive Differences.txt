@@ -1,0 +1,33 @@
+Numbers With Same Consecutive Differences
+
+#java solution
+
+class Solution {
+    public int[] numsSameConsecDiff(int N, int K) {
+        if(N == 1)
+            return new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+        
+        List<Integer> results = new ArrayList();
+        for(int num = 1;
+           num < 10; ++num){
+            dfs(N - 1, num, K, results);
+        }
+        
+        return results.stream().mapToInt(i -> i).toArray();
+    }
+    
+    private void dfs(int N, int num, int K, List<Integer> results){
+        if(N == 0){
+            if(results.indexOf(num) == -1)
+                results.add(num);
+            return;
+        }
+        
+        Integer tailDigit = num % 10;
+        if(tailDigit + K < 10)
+            dfs(N - 1, num * 10 + tailDigit + K, K, results);
+        
+        if(tailDigit - K >= 0)
+            dfs(N - 1, num * 10 + tailDigit - K, K, results);
+    }
+}
