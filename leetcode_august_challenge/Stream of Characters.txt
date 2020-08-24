@@ -1,0 +1,56 @@
+Stream of Characters
+
+#java solution
+
+class StreamChecker {
+    Trie trie;
+    StringBuilder sb;
+    
+    public StreamChecker(String[] words) {
+        trie = new Trie();
+        sb = new StringBuilder();
+        
+        for(int i = 0; i < words.length; i++){
+            insertWord(words[i]);
+        }
+    }
+    
+    private void insertWord(String word){
+        Trie current = this.trie;
+        for(int i = word.length() - 1; i >= 0; i--){
+            current.map.putIfAbsent(word.charAt(i), new Trie());
+            current = current.map.get(word.charAt(i));
+        }
+        current.isWord = true;
+    }
+    
+    public boolean query(char letter) {
+        sb.append(letter);
+        Trie current = this.trie;
+        
+        for(int i = sb.length() - 1; i >= 0; i--){
+            char ch = sb.charAt(i);
+            
+            if(current.map.containsKey(ch) && current.map.get(ch).isWord == true){
+                return true;
+            }
+            if(!current.map.containsKey(ch)){
+                return false;
+            }else{
+                current = current.map.get(ch);
+            }
+        }
+        
+        return false;
+    }
+    
+    class Trie{
+        Map<Character, Trie> map;
+        boolean isWord;
+        
+        public Trie(){
+            map = new HashMap();
+            isWord = false;
+        }
+    }
+}
