@@ -1,0 +1,23 @@
+Sum of Left Leaves
+
+#java solution
+
+class Solution {
+    private int sum;
+    public int sumOfLeftLeaves(TreeNode root) {
+        sum = 0;
+        dfs(root, "");
+        return sum;
+    }
+    private void dfs(TreeNode root, String called){
+        if(root == null)
+            return;
+        if(root.left == null && root.right == null && called.equals("left")){
+            sum += root.val;
+            return;
+        }
+        
+        dfs(root.left, "left");
+        dfs(root.right, "right");
+    }
+}
