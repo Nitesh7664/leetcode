@@ -1,0 +1,119 @@
+Delete Node in a BST
+
+#java solution
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public TreeNode deleteNode(TreeNode root, int key) {
+        if(root == null)
+            return root;
+        
+        if(root.val == key){
+            //if root is the target element
+            
+            if(root.left == null && root.right == null)
+                return null;
+            else if(root.left == null && root.right != null)
+                return root.right;
+            else if(root.left != null && root.right == null)
+                return root.left;
+            else{
+                TreeNode prev = root.right;
+                if(prev.left == null){
+                    prev.left = root.left;
+                    root = prev;
+                    return prev;
+                }
+                    
+                TreeNode curr = prev.left;
+                while(curr.left != null){
+                    prev = curr;
+                    curr = curr.left;
+                }
+                
+                prev.left = curr.right;
+                curr.left = root.left;
+                curr.right = root.right;
+                return curr;
+            }
+        }else{
+            //if root is not the target element
+            TreeNode parent = root;
+            TreeNode curr = root;
+            while(curr != null){
+                if(curr.val == key)
+                    break;
+                if(curr.val < key){
+                    parent = curr;
+                    curr = curr.right;
+                }else if(curr.val > key){
+                    parent = curr;
+                    curr = curr.left;
+                }
+            }
+            
+            if(curr == null)
+                return root;
+            else if(curr.left == null && curr.right == null){
+                if(parent.left != null && parent.left.val == curr.val)
+                    parent.left = null;
+                else 
+                    parent.right = null;
+            }else if(curr.left != null && curr.right == null){
+                if(parent.left != null && parent.left.val == curr.val)
+                    parent.left = curr.left;
+                else 
+                    parent.right = curr.left;
+            }else if(curr.left == null && curr.right != null){
+                if(parent.left != null && parent.left.val == curr.val)
+                    parent.left = curr.right;
+                else 
+                    parent.right = curr.right;
+            }else{
+                
+                TreeNode prev = curr.right;
+                
+                if(prev.left == null){
+                    prev.left = curr.left;
+                    if(parent.left != null && parent.left.val == curr.val)
+                    parent.left = prev;
+                    else 
+                    parent.right = prev;
+                    
+                    return root;
+                }
+                    
+                TreeNode temp = prev.left;
+                while(temp.left != null){
+                    prev = temp;
+                    temp = temp.left;
+                }
+                
+                prev.left = temp.right;
+                temp.left = curr.left;
+                temp.right = curr.right;
+                if(parent.left != null && parent.left.val == curr.val)
+                    parent.left = temp;
+                else 
+                    parent.right = temp;
+                return root;
+            }
+                
+        }//
+        return root;
+    }     
+}
