@@ -1,0 +1,37 @@
+Largest Time for Given Digits
+
+#java solution
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+class Solution {
+    Set<String> set;
+    public String largestTimeFromDigits(int[] A) {
+        set = new HashSet();
+        String largest = "0";
+        permutation("" , "" + A[0] + A[1] + A[2] + A[3]);
+        
+        Pattern pattern = Pattern.compile("(2[0-3][0-5][0-9])|([0-1][0-9][0-5][0-9])");
+        
+        for(String s: set){
+        Matcher matcher = pattern.matcher(s);
+        boolean matchFound = matcher.find();
+        
+        if(matchFound && s.compareTo(largest) > 0)
+            largest = s;
+        }
+        
+        return largest.length() == 1? "" : largest.substring(0, 2) + ":" + largest.substring(2, largest.length());
+        
+    }
+    private void permutation(String strSoFar, String word){
+        if(strSoFar.length() == 4){
+            set.add(strSoFar);
+            return;
+        }
+        for(int i = 0; i < word.length(); i++){
+            permutation(strSoFar + word.charAt(i), word.substring(0, i) + word.substring(i + 1, word.length()));
+        }
+    }
+}
