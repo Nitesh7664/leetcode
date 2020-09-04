@@ -1,0 +1,43 @@
+Partition Labels
+
+#java solution
+
+class Solution {
+    public List<Integer> partitionLabels(String S) {
+        Stack<String> stack = new Stack(); 
+        
+        boolean[] check = new boolean[26];
+        Arrays.fill(check, false);
+        
+        StringBuilder sb = new StringBuilder(); 
+        
+        for(int i = 0; i < S.length(); i++){
+            char ch = S.charAt(i);
+            
+            if(!check[ch - 'a']){
+                if(sb.length() > 0) stack.push(sb.toString());
+                sb = new StringBuilder();
+                sb.append(ch);
+                check[ch - 'a'] = true;
+            }else{
+                if(sb.length() > 0) stack.push(sb.toString());
+                sb = new StringBuilder();
+                sb.append(ch);
+                while(!stack.isEmpty() && !stack.peek().contains(Character.toString(ch))){
+                    sb = new StringBuilder(stack.pop() + sb.toString()); 
+                }
+                if(!stack.isEmpty()) stack.push(stack.pop() + sb.toString()); 
+                sb.setLength(0);
+            }
+        }
+        if(sb.length() > 0) stack.push(sb.toString());
+        
+        List<Integer> result = new ArrayList();
+        while(!stack.isEmpty()){
+            result.add(0, stack.pop().length());
+        }
+        
+        return result;
+        
+    }
+}
