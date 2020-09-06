@@ -1,0 +1,130 @@
+Largest Component Size by Common Factor
+
+#java solution
+
+//executed solution
+
+class Solution {
+    public int largestComponentSize(int[] A) {
+        
+        int[] parent = new int[100001];
+        Arrays.fill(parent, -1);
+    
+        for(int x: A){
+            for(int j = 2; j <= Math.sqrt(x); j++){
+                if(x % j == 0){
+                    union(j, x, parent);
+                    union(x, x / j, parent);
+                }
+            }
+        }
+        
+        int largestCount = 1;
+        Map<Integer, Integer> map = new HashMap();
+        for(int x: A){
+            int xp = find(x, parent);
+            map.putIfAbsent(xp, 0);
+            largestCount = Math.max(largestCount, map.get(xp) + 1);
+            map.put(xp, map.get(xp) + 1);
+        }
+        return largestCount;
+    }
+    
+    private void union(int n, int x, int[] parent){
+        int np = find(n, parent);
+        int xp = find(x, parent);
+        if(np != xp)
+            parent[xp] = np;
+    }
+    
+    private int find(int x, int[] parent){
+        if(parent[x] == -1)
+            return x;
+        else return find(parent[x], parent);
+    }
+}
+
+// time limit exceeded in this solution
+
+class Solution {
+    Map<Integer, Set<Integer>> map;
+    Map<Integer, Set<Integer>> adjencyList;
+    Set<Integer> set;
+    
+    int largestComponent = 1;
+    
+    int length = 1;
+    
+    public int largestComponentSize(int[] A) {
+        map = new HashMap();
+        adjencyList = new HashMap();
+        set = new HashSet();
+        
+        for(int i: A){
+            setFactorApartFromOne(i);
+        }
+        
+        for(int i = 0; i < A.length - 1; i++){
+            for(int j = i + 1; j < A.length; j++){
+                if(A[i] <= 1 || A[j] <= 1)
+                    continue;
+                
+                Set<Integer> set1 = map.get(A[i]);
+                Set<Integer> set2 = map.get(A[j]);
+                
+                Set<Integer> adjList1 = adjencyList.getOrDefault(A[i], new HashSet());
+                Set<Integer> adjList2 = adjencyList.getOrDefault(A[j], new HashSet());
+                
+                for(int fact1: set1){
+                    if(set2.contains(fact1)){
+                        adjList1.add(A[j]);
+                        adjencyList.put(A[i], adjList1);
+                        adjList2.add(A[i]);
+                        adjencyList.put(A[j], adjList2);
+                        break;
+                    }
+                }
+                
+            }
+        }
+        
+        
+        for(int i: A){
+            if(set.contains(i))
+                continue;
+            length = 0;
+            bfs(i);
+            System.out.println();
+        }
+        
+        return largestComponent;
+        
+    }
+    
+    private void bfs(int point){
+        if(set.contains(point) || adjencyList.get(point) == null)
+            return;
+        
+        length += 1;
+        set.add(point); 
+        
+        largestComponent = Math.max(length, largestComponent);
+        
+        for(int i: adjencyList.get(point)){
+            bfs(i);
+        }
+    }
+    
+    private void setFactorApartFromOne(int n){
+        if(n <= 1)
+            return;
+        
+        Set<Integer> set = new HashSet();
+        for(int divisor = 2; divisor <= n; divisor++){
+            if(n % divisor == 0)
+                set.add(divisor);
+        }
+        
+        map.put(n, set);
+    }
+}
