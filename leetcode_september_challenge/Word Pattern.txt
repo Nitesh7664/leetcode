@@ -1,0 +1,28 @@
+Word Pattern
+
+#java solution
+
+class Solution {
+    public boolean wordPattern(String pattern, String str) {
+        String[] strArr = str.split(" ");
+        
+        if(pattern.length() != strArr.length) return false;
+        
+        Map<Character, String> map = new HashMap();
+        Set<String> set = new HashSet();
+        for(int i = 0; i < pattern.length(); i++){
+            char ch = pattern.charAt(i);
+            if(!map.containsKey(ch) && !set.contains(strArr[i])){
+                map.put(ch, strArr[i]);
+                set.add(strArr[i]);
+                continue;
+            }
+            
+            if(!map.containsKey(ch) && set.contains(strArr[i]) || map.containsKey(ch) && !set.contains(strArr[i]) || !strArr[i].equals(map.get(ch))) return false;
+            
+            
+        }
+        
+        return true;
+    }
+}
