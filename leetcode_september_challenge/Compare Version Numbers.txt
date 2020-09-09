@@ -1,0 +1,27 @@
+Compare Version Numbers
+
+#java solution
+
+class Solution {
+    public int compareVersion(String version1, String version2) {
+        int[] v1 = new int[4];
+        int[] v2 = new int[4];
+        
+        getInArray(v1, version1);
+        getInArray(v2, version2);
+        
+        for(int i = 0; i < v1.length; i++){
+            if(v1[i] > v2[i])
+                return 1;
+            if(v1[i] < v2[i])
+                return -1;
+        }
+        return 0;
+    }
+    private void getInArray(int[] v, String version){
+        String[] temp = version.split("\\.");
+        for(int i = 0; i < Math.min(4, temp.length); i++){
+            v[i] = Integer.parseInt(temp[i]);
+        }
+    }
+}
