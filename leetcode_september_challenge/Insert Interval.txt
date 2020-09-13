@@ -1,0 +1,54 @@
+Insert Interval
+
+#java code
+
+class Solution {
+    public int[][] insert(int[][] intervals, int[] newInterval) {
+        List<int[]> list = new ArrayList();
+        if(intervals.length == 0)
+            list.add(newInterval);
+        else if(newInterval[1] < intervals[0][0]){
+            list.add(newInterval);
+            addToList(0, intervals.length, intervals, list);
+        }else if(newInterval[0] > intervals[intervals.length - 1][1]){
+            addToList(0, intervals.length, intervals, list);
+            list.add(newInterval);
+        }else{
+            int startIndex = 0; 
+            int endIndex = (intervals[intervals.length - 1][0] <= newInterval[1] && intervals[intervals.length - 1][1] >= newInterval[1])? intervals.length - 1: intervals.length;
+            
+            for(int i = 1; i < intervals.length; i++){
+                if(newInterval[0] >= intervals[i][0] && newInterval[0] <= intervals[i][1] || newInterval[0] < intervals[i][0] && newInterval[0] > intervals[i - 1][1]){
+                    startIndex = i;
+                    break;
+                }
+                    
+            }
+            for(int i = 0; i < intervals.length - 1; i++){
+                if(newInterval[1] >= intervals[i][0] && newInterval[1] <= intervals[i][1] || newInterval[1] > intervals[i][1] && newInterval[1] < intervals[i + 1][0]){
+                    endIndex = i;
+                    break;
+                }
+            }
+            
+            addToList(0, startIndex, intervals, list);
+            int[] interval = new int[2];
+            interval[0] = Math.min(intervals[startIndex][0], newInterval[0]);
+            interval[1] = endIndex == intervals.length? newInterval[1]: Math.max(intervals[endIndex][1], newInterval[1]);
+            list.add(interval);
+            addToList(endIndex + 1, intervals.length, intervals, list);
+        }
+        
+        int[][] result = new int[list.size()][2];
+        for(int i = 0; i < result.length; i++)
+            result[i] = list.get(i);
+            
+        return result;
+    }
+
+    private void addToList(int start, int end, int[][] intervals, List<int[]> list){
+        for(int i = start; i < end; i++){
+            list.add(intervals[i]);
+        }
+    }
+}
