@@ -1,0 +1,21 @@
+Maximum Product Subarray
+
+#java solution
+
+class Solution {
+    public int maxProduct(int[] nums) {
+        int maxProd = Integer.MIN_VALUE;
+        for(int i = 0; i < nums.length; i++){
+            
+            int tempProd = nums[i];
+            if(tempProd > maxProd) maxProd = tempProd;
+            
+            for(int j = i + 1; j < nums.length; j++){
+                tempProd *= nums[j];
+                if(tempProd > maxProd) maxProd = tempProd;
+            }
+        }
+        
+        return maxProd;
+    }
+}
