@@ -1,0 +1,12 @@
+Length of Last Word
+
+#java solution
+
+class Solution {
+    public int lengthOfLastWord(String s) {
+        if(s.trim().length() == 0)
+            return 0;
+        String[] strArr = s.split(" ");
+        return strArr[strArr.length - 1].length();
+    }
+}
