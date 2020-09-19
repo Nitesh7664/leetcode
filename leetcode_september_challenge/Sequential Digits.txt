@@ -1,0 +1,25 @@
+Sequential Digits
+
+#java solution
+
+class Solution {
+    public List<Integer> sequentialDigits(int low, int high) {
+        List<Integer> result = new ArrayList();
+        int minLength = Integer.toString(low).length();
+        int maxLength = Integer.toString(high).length();
+        
+        String ref = "123456789";
+        
+        for(int i = minLength; i <= maxLength; i++){
+            for(int j = 0; j <= ref.length() - i; j++){
+                
+                int num = Integer.parseInt(ref.substring(j, j + i));
+                if(num >= low && num <= high ) result.add(num);
+                if(num > high) break;
+                
+            }
+        }
+        
+        return result;
+    }
+}
