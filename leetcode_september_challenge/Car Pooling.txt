@@ -1,0 +1,34 @@
+Car Pooling
+
+#java solution
+
+class Solution {
+    public boolean carPooling(int[][] trips, int capacity) {
+        Arrays.sort(trips, (t1, t2)->t1[1] == t2[1]? t1[2] - t2[2]: t1[1] - t2[1]);
+        
+        int remainingCapacity = capacity;
+        Map<Integer, Integer> count = new HashMap();
+        
+        for(int[] trip: trips){
+            List<Integer> toBeRemovedList = new ArrayList();
+            for(int endTime: count.keySet()){
+                if(endTime <= trip[1]){
+                    remainingCapacity += count.get(endTime);
+                    toBeRemovedList.add(endTime);
+                }
+            }
+            for(int toBeRemoved: toBeRemovedList)
+                count.remove(toBeRemoved);
+            
+            if(remainingCapacity < trip[0])
+                return false;
+            else{
+                count.put(trip[2], count.getOrDefault(trip[2], 0) + trip[0]);
+                remainingCapacity -= trip[0];
+            }
+
+        }
+        
+        return true;
+    }
+}
