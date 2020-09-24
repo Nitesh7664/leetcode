@@ -1,0 +1,26 @@
+Gas Station
+
+#java solution
+
+class Solution {
+    public int canCompleteCircuit(int[] gas, int[] cost) {
+        
+        for(int i = 0; i < gas.length; i++){
+            if(gas[i] >= cost[i] && canTravel(gas, cost, i)) return i;
+        }
+        
+        return -1;
+    }
+    
+    private boolean canTravel(int[] gas, int[] cost, int index){
+        int len = gas.length;
+        int currentGas = gas[index];
+        
+        for(int i = 0; i < len; i++){
+            currentGas = currentGas - cost[(index + i) % len] + gas[(index + i + 1) % len];
+            if(currentGas < 0 || currentGas < cost[(index + i + 1) % len])
+                return false;
+        }
+        return true;
+    }
+}
