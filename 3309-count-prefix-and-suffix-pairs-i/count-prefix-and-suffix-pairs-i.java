@@ -8,8 +8,6 @@ class Solution {
                 int n = words[j].length();
                 String str2 = words[j];
                 if(n >= m && str2.substring(0, m).equals(str1) && str2.substring(n - m, n).equals(str1)) {
-                    System.out.print(str1 + " " + str2 + " " + str2.substring(0, m) + " " + str2.substring(n - m, n));
-                    System.out.println();
                     count++;
                 }
             }
