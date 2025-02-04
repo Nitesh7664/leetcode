@@ -6,9 +6,7 @@ class Solution {
             if (nums[i] > nums[i - 1]) currSum += nums[i];
             else currSum = nums[i];
             maxSum = Math.max(maxSum, currSum);
-            // System.out.println(currSum + " " + maxSum);
         }
-        // System.out.println(maxSum + " lastt");
         return maxSum;
     }
 }
