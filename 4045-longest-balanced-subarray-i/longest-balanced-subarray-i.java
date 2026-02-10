@@ -4,6 +4,7 @@ class Solution {
         for (int i = 0; i < nums.length; i++) {
             Set<Integer> even = new HashSet();
             Set<Integer> odd = new HashSet();
+            if (nums.length - i < max) break;
             for (int j = i; j < nums.length; j++) {
                 if (nums[j] % 2 == 0) {
                     even.add(nums[j]);
