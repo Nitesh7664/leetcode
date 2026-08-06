@@ -2,11 +2,9 @@ class Solution {
     public int product(int num) {
         int res = 1;
         while (num != 0) {
-            res = res * (num % 10);
+            res *= num % 10;
             num = num / 10;
-            System.out.println("res = " + res + " num = " + num);
         }
-        System.out.println("res = " + res);
         return res;
     }
 
