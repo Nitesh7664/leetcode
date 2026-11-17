@@ -11,13 +11,13 @@ class Solution {
                 sum += ch-'0';
                 if (counter == k) {
                     System.out.println(sum);
-                    temp.append("" + sum);
+                    temp.append(sum);
                     counter = 0;
                     sum = 0;
                 }
             }
             if (counter > 0) {
-                temp.append("" + sum);
+                temp.append(sum);
             }
             sb = temp;
         }
